@@ -1,6 +1,7 @@
 import 'package:chat_app/models/ChatRoomModel.dart';
 import 'package:chat_app/models/FirebaseHelper.dart';
 import 'package:chat_app/models/UserModel.dart';
+import 'package:chat_app/pages/ChatPage.dart';
 import 'package:chat_app/pages/ChatRoomPage.dart';
 import 'package:chat_app/pages/LoginPage.dart';
 import 'package:chat_app/pages/SearchPage.dart';
@@ -137,14 +138,36 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return SearchPage(
-                userModel: widget.userModel, firbaseUser: widget.firebaseUser);
-          }));
-        },
-        child: Icon(Icons.search),
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(left: 30),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            FloatingActionButton(
+              heroTag: "heroTag1",
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return SearchPage(
+                      userModel: widget.userModel,
+                      firbaseUser: widget.firebaseUser);
+                }));
+              },
+              child: Icon(Icons.search),
+            ),
+            Expanded(child: Container()),
+            FloatingActionButton(
+              heroTag: "heroTag2",
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return ChatPage(
+                      userModel: widget.userModel,
+                      firebaseUser: widget.firebaseUser);
+                }));
+              },
+              child: Icon(Icons.message),
+            ),
+          ],
+        ),
       ),
     );
   }
