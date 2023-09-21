@@ -70,43 +70,39 @@ class _ChatPageState extends State<ChatPage> {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.active) {
                 if (snapshot.hasData && snapshot.data != null) {
-                  return Expanded(
-                    child: ListView.builder(
-                      itemCount: snapshot.data!.docs.length,
-                      itemBuilder: (context, index) {
-                        Map<String, dynamic> userMap =
-                            snapshot.data!.docs[index].data()
-                                as Map<String, dynamic>;
-                        UserModel resultUser = UserModel.fromMap(userMap);
-                        return ListTile(
-                          onTap: () async {
-                            ChatRoomModel? chatroomModel =
-                                await getChatroomModel(resultUser);
+                  return ListView.builder(
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      Map<String, dynamic> userMap = snapshot.data!.docs[index]
+                          .data() as Map<String, dynamic>;
+                      UserModel resultUser = UserModel.fromMap(userMap);
+                      return ListTile(
+                        onTap: () async {
+                          ChatRoomModel? chatroomModel =
+                              await getChatroomModel(resultUser);
 
-                            if (chatroomModel != null) {
-                              Navigator.pop(context);
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return ChatRoomPage(
-                                  targetUser: resultUser,
-                                  userModel: widget.userModel,
-                                  firebaseUser: widget.firebaseUser,
-                                  chatroom: chatroomModel,
-                                );
-                              }));
-                            }
-                          },
-                          leading: CircleAvatar(
-                            backgroundImage:
-                                NetworkImage(resultUser.profilepic!),
-                            backgroundColor: Colors.grey[500],
-                          ),
-                          title: Text(resultUser.fullname.toString()),
-                          subtitle: Text(resultUser.email.toString()),
-                          trailing: Icon(Icons.keyboard_arrow_right),
-                        );
-                      },
-                    ),
+                          if (chatroomModel != null) {
+                            Navigator.pop(context);
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return ChatRoomPage(
+                                targetUser: resultUser,
+                                userModel: widget.userModel,
+                                firebaseUser: widget.firebaseUser,
+                                chatroom: chatroomModel,
+                              );
+                            }));
+                          }
+                        },
+                        leading: CircleAvatar(
+                          backgroundImage: NetworkImage(resultUser.profilepic!),
+                          backgroundColor: Colors.grey[500],
+                        ),
+                        title: Text(resultUser.fullname.toString()),
+                        subtitle: Text(resultUser.email.toString()),
+                        trailing: Icon(Icons.keyboard_arrow_right),
+                      );
+                    },
                   );
                 } else {
                   return Text("No data!");
